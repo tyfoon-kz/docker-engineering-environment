@@ -3,13 +3,16 @@ services:
     image: php:8.5-cli
     container_name: ecommerce-app
     restart: unless-stopped
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
     working_dir: /var/www/html
-    command: sh -lc "php -S 0.0.0.0:8080 -t public"
+    command: sh -lc "mkdir -p storage/logs bootstrap/cache && php -S 0.0.0.0:8080 -t public"
     volumes:
       - ./:/var/www/html
       - ./docker/app/php.ini:/usr/local/etc/php/conf.d/local.ini:ro
     environment:
       APP_ENV: ${APP_ENV:-local}
+      APP_UID: ${APP_UID:-1000}
+      APP_GID: ${APP_GID:-1000}
       DB_HOST: postgres
       DB_PORT: 5432
       DB_DATABASE: ${DB_DATABASE:-ecommerce}
