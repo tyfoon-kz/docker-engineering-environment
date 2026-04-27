@@ -1,0 +1,31 @@
+services:
+  app:
+    image: php:8.5-cli
+    container_name: ecommerce-app
+    working_dir: /var/www/html
+    command: sh -lc "php -S 0.0.0.0:8080 -t public"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      APP_ENV: ${APP_ENV:-local}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-ecommerce}
+      DB_USERNAME: ${DB_USERNAME:-ecommerce}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "${APP_PORT:-18080}:8080"
+
+  postgres:
+    image: postgres:18-alpine
+    container_name: ecommerce-postgres
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-ecommerce}
+      POSTGRES_USER: ${DB_USERNAME:-ecommerce}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecommerce-redis
