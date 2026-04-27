@@ -1,0 +1,7 @@
+{
+  "name": "tyfoon-kz/ecommerce-platform",
+  "type": "project",
+  "require": {
+    "php": "^8.3"
+  }
+}

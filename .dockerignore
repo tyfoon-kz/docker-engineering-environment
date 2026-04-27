@@ -1,0 +1,9 @@
+.git
+.idea
+.DS_Store
+node_modules
+vendor
+.env
+.env.local
+storage/logs
+tmp
