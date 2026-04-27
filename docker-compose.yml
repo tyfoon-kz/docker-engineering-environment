@@ -7,6 +7,7 @@ services:
     command: sh -lc "php -S 0.0.0.0:8080 -t public"
     volumes:
       - ./:/var/www/html
+      - ./docker/app/php.ini:/usr/local/etc/php/conf.d/local.ini:ro
     environment:
       APP_ENV: ${APP_ENV:-local}
       DB_HOST: postgres
@@ -45,6 +46,8 @@ services:
       POSTGRES_DB: ${DB_DATABASE:-ecommerce}
       POSTGRES_USER: ${DB_USERNAME:-ecommerce}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-ecommerce} -d ${DB_DATABASE:-ecommerce}"]
       interval: 10s
@@ -58,6 +61,8 @@ services:
     image: redis:7-alpine
     container_name: ecommerce-redis
     restart: unless-stopped
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -73,3 +78,7 @@ networks:
   internal:
     driver: bridge
     internal: true
+
+volumes:
+  postgres_data:
+  redis_data:
