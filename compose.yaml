@@ -1,0 +1,11 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        APP_BUILD_TARGET: local
+    environment:
+      APP_ENV: local
+      DB_HOST: mysql
+      REDIS_HOST: redis
