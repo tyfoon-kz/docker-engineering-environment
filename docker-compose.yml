@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: ecommerce-app
+    working_dir: /app
+    command: ["sh", "-lc", "php -v && php -m | grep -i xdebug && sleep infinity"]
+    environment:
+      APP_ENV: local
+      PHP_IDE_CONFIG: serverName=ecommerce.localho.st
+      XDEBUG_MODE: debug,develop
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003 idekey=PHPSTORM
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/app
+
