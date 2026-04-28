@@ -1,0 +1,14 @@
+services:
+  healthy-web:
+    image: nginx:1.29-alpine
+    container_name: ecommerce-healthy-web
+    restart: unless-stopped
+    ports:
+      - "18081:80"
+    volumes:
+      - ./services/healthy:/usr/share/nginx/html:ro
+
+  broken-worker:
+    image: nginx:1.29-alpine
+    container_name: ecommerce-broken-worker
+    command: ["sh", "-c", "echo '[worker] booting'; echo '[worker] missing configuration file /run/config/worker.env' >&2; exit 1"]
