@@ -2,3 +2,6 @@
 .DS_Store
 vendor/
 node_modules/
+docker/traefik/certs/*.crt
+docker/traefik/certs/*.key
+docker/traefik/certs/*.cnf
