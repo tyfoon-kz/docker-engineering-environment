@@ -1,0 +1,21 @@
+services:
+  app:
+    image: nginx:1.29-alpine
+    container_name: ecommerce-limits-app
+    restart: unless-stopped
+    ports:
+      - "18083:80"
+    mem_limit: 256m
+    cpus: 0.50
+    volumes:
+      - ./services/app:/usr/share/nginx/html:ro
+
+  admin:
+    image: nginx:1.29-alpine
+    container_name: ecommerce-limits-admin
+    restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.25
+    volumes:
+      - ./services/admin:/usr/share/nginx/html:ro
+
