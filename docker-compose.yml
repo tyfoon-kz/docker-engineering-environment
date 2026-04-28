@@ -1,0 +1,12 @@
+services:
+  app:
+    image: php:8.5-cli
+    container_name: ecommerce-app
+    working_dir: /app
+    command: ["sh", "-lc", "php -v && sleep infinity"]
+    environment:
+      APP_ENV: local
+      PHP_IDE_CONFIG: serverName=ecommerce.localho.st
+    volumes:
+      - ./:/app
+
