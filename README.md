@@ -1,5 +1,22 @@
 # Docker Engineering Environment
 
+## Onboarding Entry
+
+This repository represents the reference environment for the course around `ecommerce-platform`.
+The local environment is treated as part of the repository rather than as one developer's private setup.
+
+## Minimal workflow
+
+1. Copy `.env.example` to `.env`.
+2. Read the environment contract in `docs/environment-contract.md`.
+3. Use the repository structure and docs as the primary onboarding source.
+4. Treat helper scripts and docs as part of the environment, not as optional extras.
+
+## Principle
+
+If a teammate cannot understand how to start and reason about the local environment from the repository alone, the environment contract is incomplete.
+
+
 Эталонный практический репозиторий курса `Docker как инженерная среда разработки`.
 
 ## Назначение
