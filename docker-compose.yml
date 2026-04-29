@@ -6,6 +6,7 @@ services:
     command:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+      - "--providers.docker.constraints=Label(`traefik.scope`, `${COMPOSE_STACK_NAME:-ecommerce}`)"
       - --providers.docker.network=${COMPOSE_STACK_NAME:-ecommerce}_web
       - --api.dashboard=true
       - --entrypoints.web.address=:80
@@ -14,10 +15,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
+      - "traefik.scope=${COMPOSE_STACK_NAME:-ecommerce}"
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_DASHBOARD_DOMAIN:-traefik.ecommerce.localho.st}`)"
-      - "traefik.http.routers.dashboard.entrypoints=web"
-      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-dashboard.rule=Host(`${TRAEFIK_DASHBOARD_DOMAIN:-traefik.ecommerce.localho.st}`)"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-dashboard.entrypoints=web"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-dashboard.service=api@internal"
     networks:
       - web
 
@@ -28,11 +30,12 @@ services:
     volumes:
       - ./services/storefront:/usr/share/nginx/html:ro
     labels:
+      - "traefik.scope=${COMPOSE_STACK_NAME:-ecommerce}"
       - "traefik.enable=true"
       - "traefik.docker.network=${COMPOSE_STACK_NAME:-ecommerce}_web"
-      - "traefik.http.routers.storefront.rule=Host(`${APP_DOMAIN:-ecommerce.localho.st}`)"
-      - "traefik.http.routers.storefront.entrypoints=web"
-      - "traefik.http.services.storefront.loadbalancer.server.port=80"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-storefront.rule=Host(`${APP_DOMAIN:-ecommerce.localho.st}`)"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-storefront.entrypoints=web"
+      - "traefik.http.services.${COMPOSE_STACK_NAME:-ecommerce}-storefront.loadbalancer.server.port=80"
     networks:
       - web
 
@@ -43,11 +46,12 @@ services:
     volumes:
       - ./services/api:/usr/share/nginx/html:ro
     labels:
+      - "traefik.scope=${COMPOSE_STACK_NAME:-ecommerce}"
       - "traefik.enable=true"
       - "traefik.docker.network=${COMPOSE_STACK_NAME:-ecommerce}_web"
-      - "traefik.http.routers.api.rule=Host(`${API_DOMAIN:-api.ecommerce.localho.st}`)"
-      - "traefik.http.routers.api.entrypoints=web"
-      - "traefik.http.services.api.loadbalancer.server.port=80"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-api.rule=Host(`${API_DOMAIN:-api.ecommerce.localho.st}`)"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-api.entrypoints=web"
+      - "traefik.http.services.${COMPOSE_STACK_NAME:-ecommerce}-api.loadbalancer.server.port=80"
     networks:
       - web
 
@@ -58,11 +62,12 @@ services:
     volumes:
       - ./services/admin:/usr/share/nginx/html:ro
     labels:
+      - "traefik.scope=${COMPOSE_STACK_NAME:-ecommerce}"
       - "traefik.enable=true"
       - "traefik.docker.network=${COMPOSE_STACK_NAME:-ecommerce}_web"
-      - "traefik.http.routers.admin.rule=Host(`${ADMIN_DOMAIN:-admin.ecommerce.localho.st}`)"
-      - "traefik.http.routers.admin.entrypoints=web"
-      - "traefik.http.services.admin.loadbalancer.server.port=80"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-admin.rule=Host(`${ADMIN_DOMAIN:-admin.ecommerce.localho.st}`)"
+      - "traefik.http.routers.${COMPOSE_STACK_NAME:-ecommerce}-admin.entrypoints=web"
+      - "traefik.http.services.${COMPOSE_STACK_NAME:-ecommerce}-admin.loadbalancer.server.port=80"
     networks:
       - web
 
