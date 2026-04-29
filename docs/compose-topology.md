@@ -1,8 +1,12 @@
 # Compose Topology
 
-The stack is intentionally small and contains three roles:
-- `app` for the application runtime;
-- `postgres` for relational state;
-- `redis` for fast transient state.
+The stack is a readable map of `ecommerce-platform`.
 
-This is enough to teach that Compose describes the project as services with roles rather than as unrelated containers.
+| Service | Role | Talks to |
+| --- | --- | --- |
+| `web` | Nginx HTTP entry from the host | `app` |
+| `app` | PHP application runtime | `mysql`, `redis` |
+| `mysql` | Main relational database | internal clients only |
+| `redis` | Cache or queue backend | internal clients only |
+
+Inside Compose, `app` reaches the database with `DB_HOST=mysql`. From the host, the browser uses `http://localhost:${WEB_PUBLISHED_PORT}`.

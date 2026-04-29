@@ -1,15 +1,12 @@
 # Naming Convention
 
-Service names:
+Service names are role names and internal hostnames:
+
+- `web`
 - `app`
-- `postgres`
+- `mysql`
 - `redis`
 
-They represent the architecture of the stack and are used for internal DNS.
+This reference does not set manual `container_name` values. Compose can generate container names from the project name and service name.
 
-`container_name` is added only to make runtime inspection clearer for a beginner:
-- `ecommerce-app`
-- `ecommerce-postgres`
-- `ecommerce-redis`
-
-The model still relies on service names for inter-service communication.
+Use `mysql` and `redis` from inside containers. Use `localhost:${WEB_PUBLISHED_PORT}` from the host.

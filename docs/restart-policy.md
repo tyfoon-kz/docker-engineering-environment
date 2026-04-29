@@ -1,12 +1,14 @@
 # Restart Policy
 
-All long-lived services use `restart: unless-stopped`.
+Long-running development services use `restart: unless-stopped`:
 
-Why:
-- the stack is meant to behave like a durable local environment;
-- a transient failure should not leave the student with a dead service until manual intervention.
+- `app`
+- `web`
+- `mysql`
+- `redis`
 
-Why this is not enough on its own:
-- restart does not replace readiness;
-- restart does not justify a broken dependency model;
-- a service that crashes because startup is designed badly should be fixed architecturally, not merely restarted forever.
+This makes the local stack recover from accidental process exits while Docker is running.
+
+Restart policy is not a bug fix. If `DB_PASSWORD` is wrong, restarting `app` will not make the password correct. Use logs and health status to find the cause.
+
+One-shot tasks, such as future migrations or import jobs, should not automatically use `unless-stopped`.

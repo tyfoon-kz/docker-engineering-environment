@@ -1,10 +1,11 @@
 # Lesson 08 Reference Summary
 
-This branch represents the expected level of homework quality for lesson 08.
+This branch is the course answer key for startup dependencies, healthchecks, and restart policies. Students implement the same ideas in their own `ecommerce-platform` repository.
 
-The solution shows:
-- the difference between startup order and readiness;
-- deliberate `depends_on` conditions;
-- meaningful healthchecks;
-- restart policies used as support rather than as a bandage;
-- documentation that explains dependency logic explicitly.
+Included artifacts:
+
+- healthchecks and restart policies in `docker-compose.yml`
+- `docs/dependency-matrix.md`
+- `docs/healthcheck-rationale.md`
+- `docs/restart-policy.md`
+- `bin/check-health.sh`
