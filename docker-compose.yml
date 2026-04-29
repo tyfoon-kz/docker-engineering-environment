@@ -8,6 +8,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+      start_period: 5s
 
   app:
     image: nginx:1.29-alpine
@@ -20,3 +21,9 @@ services:
       - "18082:80"
     volumes:
       - ./services/app:/usr/share/nginx/html:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
