@@ -1,11 +1,9 @@
 # Internal DNS
 
-Inside the Compose stack:
-- `postgres` resolves as `postgres`;
-- `redis` resolves as `redis`.
+Inside Compose:
 
-That is why the application contract still uses:
-- `DB_HOST=postgres`
-- `REDIS_HOST=redis`
+- `mysql` resolves to the MySQL service;
+- `redis` resolves to the Redis service;
+- `app` resolves to the PHP runtime service.
 
-The host-published app port is an external access detail, not an internal service-discovery mechanism.
+Use `DB_HOST=mysql` inside containers. Use `localhost:${WEB_PUBLISHED_PORT}` from the host.

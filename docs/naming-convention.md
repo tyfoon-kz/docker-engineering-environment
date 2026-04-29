@@ -1,15 +1,5 @@
 # Naming Convention
 
-Service names:
-- `app`
-- `postgres`
-- `redis`
+Service names are stable role names: `web`, `app`, `mysql`, `redis`.
 
-They represent the architecture of the stack and are used for internal DNS.
-
-`container_name` is added only to make runtime inspection clearer for a beginner:
-- `ecommerce-app`
-- `ecommerce-postgres`
-- `ecommerce-redis`
-
-The model still relies on service names for inter-service communication.
+Inside containers, these names work as DNS names. From the host, use `localhost` plus a published port.

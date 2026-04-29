@@ -1,10 +1,11 @@
 # Lesson 10 Reference Summary
 
-This branch represents the expected level of homework quality for lesson 10.
+This branch is the course answer key for volumes, bind mounts, and data strategy. Students implement the same ideas in their own `ecommerce-platform` repository.
 
-The solution shows:
-- bind mounts for live project code;
-- named volumes for stateful services;
-- a read-only config mount;
-- a documented distinction between code, state, and config;
-- a stack that remains reproducible after container recreation.
+Included artifacts:
+
+- bind mounts and named volumes in `docker-compose.yml`
+- `docs/mount-strategy.md`
+- `docs/data-persistence.md`
+- `docs/dangerous-volume-commands.md`
+- `bin/storage-inventory.sh`
