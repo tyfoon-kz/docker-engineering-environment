@@ -1,10 +1,16 @@
-FROM php:8.5-cli
+FROM php:8.5-cli-alpine
 
-ARG APP_BUILD_TARGET=local
-ENV APP_ENV=local
+ARG BUILD_MODE=production
+ARG APP_VERSION=lesson-06-reference
 
-WORKDIR /app
+LABEL org.opencontainers.image.title="ecommerce-platform"
+LABEL org.opencontainers.image.version="${APP_VERSION}"
+LABEL kz.tyfoon.course.build_mode="${BUILD_MODE}"
 
-COPY . .
+ENV APP_DIR=/var/www/html
 
-CMD ["php", "-v"]
+WORKDIR ${APP_DIR}
+
+COPY public ./public
+
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

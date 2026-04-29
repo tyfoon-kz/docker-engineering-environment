@@ -1,16 +1,42 @@
 # ARG vs ENV
 
-## ARG
+## Simple model
 
-`ARG` belongs to build time.
-It helps parameterize how the image is built.
+Build-time is the factory. Runtime is the day the finished item is used.
 
-## ENV
+In Docker:
 
-`ENV` belongs to the container runtime environment.
-It influences how the application behaves when it starts.
+- `ARG` belongs to image build;
+- `ENV` becomes part of the image/container environment;
+- Compose and `docker run -e` provide runtime values for a specific run.
 
-## Practical distinction
+## ARG in this reference
 
-If the value is needed to shape the build, it is a candidate for `ARG`.
-If the value is needed by the running application, it is a candidate for `ENV` or compose/runtime injection.
+The Dockerfile uses:
+
+```dockerfile
+ARG BUILD_MODE=production
+ARG APP_VERSION=lesson-06-reference
+```
+
+These values describe the build. They are not secrets.
+
+Build command example:
+
+```bash
+docker build --build-arg BUILD_MODE=local -t ecommerce-php:config -f docker/php/Dockerfile .
+```
+
+## ENV in this reference
+
+The Dockerfile uses:
+
+```dockerfile
+ENV APP_DIR=/var/www/html
+```
+
+`APP_DIR` is safe to bake into the image because it describes an internal path, not an environment-specific credential.
+
+## Runtime values
+
+`APP_ENV`, `DB_HOST`, and `REDIS_HOST` are provided through Compose because they can change between local, CI, and production-like environments.

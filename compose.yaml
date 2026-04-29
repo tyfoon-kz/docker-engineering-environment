@@ -1,11 +1,16 @@
 services:
-  php:
+  app:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
       args:
-        APP_BUILD_TARGET: local
+        BUILD_MODE: local
+        APP_VERSION: lesson-06-local
+    env_file:
+      - .env.example
     environment:
       APP_ENV: local
       DB_HOST: mysql
       REDIS_HOST: redis
+    ports:
+      - "8000:8000"

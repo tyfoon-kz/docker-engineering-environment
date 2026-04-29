@@ -1,17 +1,40 @@
 # Configuration Boundaries
 
-## Runtime values
+## What can be baked into the image
 
-Values such as `APP_ENV`, `DB_HOST`, and `REDIS_HOST` belong to runtime configuration.
+Safe image defaults can be stored in the Dockerfile:
 
-## Why secrets do not belong in the image
+- internal application directory;
+- non-secret labels;
+- build mode labels for learning;
+- default command.
 
-Secrets should not be baked into an image because:
-- the image becomes less portable;
-- sensitive values spread too easily;
-- the boundary between environment description and private runtime data becomes weak.
+Example:
 
-## Role separation
+```dockerfile
+ENV APP_DIR=/var/www/html
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+```
 
-The Dockerfile defines the environment structure.
-Compose injects environment-specific runtime configuration.
+## What should stay outside the image
+
+Runtime values should be provided when the container starts:
+
+- `APP_ENV`;
+- `DB_HOST`;
+- `REDIS_HOST`;
+- service ports;
+- credentials and tokens.
+
+Compose is the runtime layer in this reference:
+
+```yaml
+environment:
+  APP_ENV: local
+  DB_HOST: mysql
+  REDIS_HOST: redis
+```
+
+## Why this boundary matters
+
+The same image should be usable in more than one environment. If `DB_HOST` or a password is baked into the image, the image becomes tied to one run scenario and becomes harder to review safely.
