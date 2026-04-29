@@ -1,20 +1,27 @@
 # Automation Surface
 
-## Predictable entry points
+The automation surface is the set of paths and names that scripts may rely on.
 
-Automation becomes cheaper when scripts can rely on the same entry points:
+## Stable paths
 
-- `docker-compose.yml` for the stack definition
-- `docker/` for service config
-- `docs/` for human-readable rules
-- `bin/` for small helper commands
+- `docker-compose.yml`
+- `docker/php/Dockerfile`
+- `docker/nginx/default.conf`
+- `bin/project-layout-summary.sh`
+- `docs/project-structure.md`
+- `docs/service-naming.md`
 
-## Why structure affects automation
+## Stable service names
 
-When every project hides compose files and configs in different places, helper scripts become full of exceptions.
-When the layout is stable, commands such as `bin/up`, `bin/test`, and `bin/debug-summary` can be reused with minimal changes.
+Scripts may refer to `app`, `nginx`, `postgres` and `redis`.
 
-## Rule
+## Script rules
 
-The structure should help scripts discover the environment instead of forcing scripts to guess it.
+Scripts in `bin/` should:
+- start with `set -euo pipefail`;
+- print clear messages for beginners;
+- check before assuming a file exists;
+- avoid deleting files, containers, volumes or images without a separate explicit command and warning.
+
+This branch documents the layout. It does not claim the Docker runtime was tested.
 

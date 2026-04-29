@@ -1,21 +1,31 @@
 # Project Structure
 
-## Baseline layout
+This repository uses a predictable Docker layout so a new developer can find the environment without asking where things live.
 
-- `docker-compose.yml` — the main local environment entry point.
-- `docker/` — service-specific infrastructure files.
-- `docker/php/` — PHP runtime config.
-- `docker/mysql/` — MySQL overrides and support config.
-- `docker/traefik/` — reverse-proxy config and static files.
-- `docs/` — engineering notes, onboarding, and operational rules.
-- `bin/` — small helper scripts and summaries for humans.
+## Root entry points
 
-## Why this layout works
+- `docker-compose.yml` is the local stack contract.
+- `docker/` stores service-specific Dockerfiles and config.
+- `bin/` stores friendly team commands.
+- `docs/` stores environment decisions and onboarding notes.
+- `.env.example` belongs in the repository when variables are required; private `.env` files do not.
 
-The structure separates runtime concerns by service while keeping the top-level entry points obvious.
-A developer can infer where to look for compose, service config, docs, and helper scripts without guessing.
+## Docker directory
 
-## Rule
+- `docker/php/Dockerfile` defines the application runtime image.
+- `docker/nginx/default.conf` defines the local web entry point.
+- `docker/postgres/README.md` documents database-specific local decisions.
 
-If a file changes the local environment, its location should be predictable from the repository structure.
+## What belongs in Git
+
+Commit reproducible contracts: compose files, Dockerfiles, safe config templates, docs and helper scripts.
+
+Do not commit private `.env` values, private keys, production certificates, personal database dumps, temporary logs or generated files that can be rebuilt. Dependencies such as `vendor/` require an explicit team strategy before they are committed.
+
+## Beginner path
+
+1. Open `README.md`.
+2. Inspect `docker-compose.yml`.
+3. Read `docs/service-naming.md`.
+4. Run `bin/project-layout-summary.sh`.
 

@@ -1,17 +1,25 @@
 # Service Naming
 
-## Naming rules
+Stable names create a shared language for people, docs and scripts.
 
-- Use short, stable names that reflect the runtime role: `app`, `db`, `redis`, `traefik`.
-- Avoid project-specific novelty names for standard infrastructure services.
-- Keep container names aligned with the project prefix, for example `ecommerce-app` and `ecommerce-db`.
+## Services
 
-## Why stability matters
+- `app` is the application runtime.
+- `nginx` is the local HTTP entry point.
+- `postgres` is the relational database.
+- `redis` is the cache or queue support service.
 
-Stable service names make onboarding, troubleshooting, and automation cheaper.
-People and scripts can assume a familiar vocabulary instead of learning a new private dialect on every project.
+Avoid renaming standard services to novelty names. A command such as `docker compose logs postgres` should keep working across projects that use the same stack shape.
 
-## Rule
+## Network
 
-Rename a standard service only when its responsibility truly changes, not because a different label sounds nicer.
+- `app-network` is the internal network used by local services.
+- The explicit Docker network name is `ecommerce-platform-local`.
+
+## Volumes
+
+- `postgres-data` stores local PostgreSQL data.
+- `redis-data` stores local Redis data.
+
+Volume names describe the data they contain. They should not contain personal names, machine names or branch names.
 

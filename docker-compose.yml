@@ -1,42 +1,55 @@
 services:
-  traefik:
-    image: traefik:v3.6.14
-    container_name: ecommerce-traefik
-    command:
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./docker/traefik:/etc/traefik
-
   app:
-    image: php:8.5-cli
-    container_name: ecommerce-app
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: ecommerce-platform/app:local
     working_dir: /app
-    command: ["sh", "-lc", "php -v && sleep infinity"]
     volumes:
       - ./:/app
-      - ./docker/php:/usr/local/etc/php/conf.d
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
 
-  db:
-    image: mysql:8.4
-    container_name: ecommerce-db
-    environment:
-      MYSQL_DATABASE: ecommerce
-      MYSQL_USER: ecommerce
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: root
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
     volumes:
-      - db-data:/var/lib/mysql
-      - ./docker/mysql:/etc/mysql/conf.d
+      - ./:/app:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: ecommerce
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   redis:
     image: redis:7-alpine
-    container_name: ecommerce-redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: ecommerce-platform-local
 
 volumes:
-  db-data:
+  postgres-data:
+    name: ecommerce-platform-postgres-data
+  redis-data:
+    name: ecommerce-platform-redis-data
 
