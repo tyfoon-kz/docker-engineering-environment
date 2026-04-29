@@ -1,25 +1,20 @@
 # Environment Drift
 
-## Why it hurts
+Environment drift means the IDE sees one environment while the application runs in another.
 
-Environment drift appears when PhpStorm analyzes or runs the project through a PHP environment that differs from the real container runtime.
-The drift may be small, but it destroys trust step by step.
+Examples:
 
-## Typical drift signals
+- PhpStorm analyzes code with host PHP 8.4, but the container runs PHP 8.3.
+- Host PHP has `intl`, but container PHP does not.
+- Composer in the IDE writes `vendor` for host PHP, while the app executes with container PHP.
+- The IDE thinks the project is under one path, while the container runs it from `/var/www/html`.
 
-- PHP version in the IDE differs from the version inside the container.
-- Required extensions exist in one place and are missing in the other.
-- Project paths inside the container differ from what the IDE expects.
-- Composer behaves one way in the container and another way on the host.
-- Tests pass in one runtime and fail in the other.
+Drift is dangerous because it creates false signals. The IDE may show green inspections or tests while the real app fails in the container. Or the container may work while the IDE reports problems that do not exist in the project runtime.
 
-## Why the problem is subtle
+The fix is not to ignore the IDE. The fix is to make the IDE use the same runtime model as the project:
 
-The damage is rarely a single obvious crash.
-More often the IDE shows green checks while the actual runtime rejects the same code path.
-That leads to false confidence and slow debugging.
-
-## Rule
-
-If the project chose containers as the runtime, the IDE must follow that choice rather than compete with it.
-
+1. Docker connection points to the correct Engine.
+2. The Compose service is documented.
+3. PHP interpreter is configured from the container in the next workflow.
+4. Composer and tests run through the same container PHP.
+5. Path mappings use one clear host path and one clear container path.
