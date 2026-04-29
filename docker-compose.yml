@@ -3,11 +3,11 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: ecommerce-phpstorm-interpreter-app
+    container_name: ${COMPOSE_STACK_NAME:-ecommerce}-phpstorm-interpreter-app
     working_dir: /var/www/html
     command: ["php", "-S", "0.0.0.0:8080", "-t", "public"]
     ports:
-      - "8080:8080"
+      - "${PHPSTORM_APP_PORT:-8080}:8080"
     volumes:
       - ./:/var/www/html
     environment:
