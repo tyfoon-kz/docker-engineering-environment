@@ -16,3 +16,11 @@ Key labels used in this branch:
 
 - `traefik.docker.network=...`
   Prevents ambiguity when Traefik must reach the service through a specific Docker network.
+
+Common mistakes:
+
+- missing `traefik.enable=true` while `exposedByDefault=false` is active;
+- putting a host published port such as `8000` into `loadbalancer.server.port`;
+- writing a `Host(...)` value that does not match the browser URL;
+- attaching the service to a different network from Traefik;
+- treating `api@internal` dashboard access as safe for production by default.
