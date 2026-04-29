@@ -1,11 +1,12 @@
 # Network Map
 
-- `web` is the host-facing network for services that may receive external traffic.
-- `internal` is the private network for application-to-infrastructure communication.
+The stack uses two networks.
 
-Services:
-- `app` joins both `web` and `internal`;
-- `postgres` joins only `internal`;
-- `redis` joins only `internal`.
+| Service | `frontend` | `backend` | Reason |
+| --- | --- | --- | --- |
+| `web` | yes | yes | Receives host HTTP and proxies to `app` |
+| `app` | no | yes | Talks to internal dependencies |
+| `mysql` | no | yes | Internal database only |
+| `redis` | no | yes | Internal cache/queue only |
 
-This keeps infrastructure services private while still allowing the app to speak to both the host and the internal runtime.
+`backend` is marked `internal: true` to make the boundary explicit in the training reference.

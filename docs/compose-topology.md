@@ -1,8 +1,5 @@
 # Compose Topology
 
-The stack is intentionally small and contains three roles:
-- `app` for the application runtime;
-- `postgres` for relational state;
-- `redis` for fast transient state.
+`ecommerce-platform` uses four core services: `web`, `app`, `mysql`, and `redis`.
 
-This is enough to teach that Compose describes the project as services with roles rather than as unrelated containers.
+`web` is the host-facing Nginx entry, `app` is the PHP runtime, `mysql` stores relational data, and `redis` provides cache or queue support.

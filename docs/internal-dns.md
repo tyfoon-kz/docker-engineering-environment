@@ -1,11 +1,11 @@
 # Internal DNS
 
-Inside the Compose stack:
-- `postgres` resolves as `postgres`;
-- `redis` resolves as `redis`.
+Compose service names work as DNS names inside a shared Docker network.
 
-That is why the application contract still uses:
-- `DB_HOST=postgres`
-- `REDIS_HOST=redis`
+Examples from this stack:
 
-The host-published app port is an external access detail, not an internal service-discovery mechanism.
+- `app` connects to MySQL with `DB_HOST=mysql`.
+- `app` connects to Redis with `REDIS_HOST=redis`.
+- `web` proxies to `http://app:9000`.
+
+These names are internal. A browser on the host does not open `http://web`; it opens the published port on `localhost`.

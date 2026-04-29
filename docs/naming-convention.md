@@ -1,15 +1,5 @@
 # Naming Convention
 
-Service names:
-- `app`
-- `postgres`
-- `redis`
+Service names are short and stable: `web`, `app`, `mysql`, `redis`.
 
-They represent the architecture of the stack and are used for internal DNS.
-
-`container_name` is added only to make runtime inspection clearer for a beginner:
-- `ecommerce-app`
-- `ecommerce-postgres`
-- `ecommerce-redis`
-
-The model still relies on service names for inter-service communication.
+Inside Compose, service names are DNS names. Manual `container_name` values are avoided so Compose can recreate and scale services more easily.

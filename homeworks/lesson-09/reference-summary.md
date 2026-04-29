@@ -1,10 +1,12 @@
 # Lesson 09 Reference Summary
 
-This branch represents the expected level of homework quality for lesson 09.
+This branch is the course answer key for networks, DNS, and published ports. Students implement the same ideas in their own `ecommerce-platform` repository.
 
-The solution shows:
-- a split between internal and host-facing networks;
-- selective published ports;
-- internal DNS through service names;
-- an explicit explanation of why database and cache remain private;
-- a stack that keeps external and internal access separate.
+Included artifacts:
+
+- `frontend` and `backend` networks in `docker-compose.yml`
+- published port only for `web`
+- `docs/network-map.md`
+- `docs/internal-dns.md`
+- `docs/port-publishing.md`
+- `bin/network-diagnostics.sh`

@@ -1,7 +1,10 @@
 # Dependency Matrix
 
-- `app` depends on `postgres` because it needs relational state.
-- `app` depends on `redis` because it uses cache or transient runtime state.
-- `postgres` and `redis` do not depend on `app`.
+| Service | Depends on | Readiness signal |
+| --- | --- | --- |
+| `mysql` | none | `mysqladmin ping` succeeds |
+| `redis` | none | `redis-cli ping` returns `PONG` |
+| `app` | `mysql`, `redis` | PHP dev server accepts a local TCP connection |
+| `web` | `app` | Nginx responds to local HTTP |
 
-The point is not only startup order. The point is to make the application wait for infrastructure that is actually ready.
+Startup order is not readiness, so dependencies use health status where useful.
