@@ -1,23 +1,27 @@
 # Environment Contract
 
-## What belongs to the repository
+Environment as code means the repository contains enough information for another developer to reproduce the local environment without private notes.
 
-- `docker-compose.yml` and other environment entry points
-- service-specific config under `docker/`
-- `.env.example` for expected variables
-- onboarding docs and workflow notes
-- small helper scripts under `bin/`
+## Belongs in the repository
 
-## What this contract means
+- `docker-compose.yml` or `compose.yaml` for the stack definition.
+- `docker/` files used by local services.
+- `.env.example` with safe variable names and example values.
+- README onboarding steps.
+- `docs/reproducibility-checklist.md`.
+- `docs/upgrade-notes.md`.
+- Safe `bin/` scripts that explain missing requirements.
 
-The team should be able to inspect the repository and answer:
-- which services exist
-- which variables are required
-- how the environment is expected to start
-- where to look for common operational actions
+## Does not belong in the repository
 
-## Rule
+- Private `.env` files.
+- Private keys.
+- Production certificates.
+- Personal database dumps.
+- Temporary logs.
+- Generated dependency folders unless the team has documented that strategy.
 
-The local environment is part of the product's engineering surface.
-If it is required for daily work, it must be represented in the repository.
+## Review rule
+
+If a change affects local startup, ports, service names, variables, image versions or bootstrap steps, it must be reviewed like application code. The same pull request should update README, `.env.example`, docs and scripts.
 

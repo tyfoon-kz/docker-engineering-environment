@@ -1,47 +1,53 @@
 # Docker Engineering Environment
 
-## Onboarding Entry
+This reference branch models `ecommerce-platform` as a repository-owned local environment.
 
-This repository represents the reference environment for the course around `ecommerce-platform`.
-The local environment is treated as part of the repository rather than as one developer's private setup.
+## Onboarding Runbook
 
-## Minimal workflow
+### Prerequisites
 
-1. Copy `.env.example` to `.env`.
-2. Read the environment contract in `docs/environment-contract.md`.
-3. Use the repository structure and docs as the primary onboarding source.
-4. Treat helper scripts and docs as part of the environment, not as optional extras.
+- Docker Engine with Docker Compose plugin.
+- Git.
+- A shell that can run Bash scripts.
 
-## Principle
+### First run
 
-If a teammate cannot understand how to start and reason about the local environment from the repository alone, the environment contract is incomplete.
+```bash
+cp .env.example .env
+bin/check-environment-contract.sh
+docker compose config
+docker compose up -d
+```
 
+Expected local entry points:
+- application HTTP entry: `http://localhost:8080`;
+- app service: `app`;
+- database service: `postgres`;
+- cache service: `redis`.
 
-Эталонный практический репозиторий курса `Docker как инженерная среда разработки`.
+### Useful checks
 
-## Назначение
+```bash
+docker compose ps
+docker compose logs -f app
+docker compose exec app php -v
+```
 
-Репозиторий используется как:
-- стартовая база для домашних заданий;
-- reference repository для mentor-review;
-- набор эталонных веток, показывающих ожидаемый уровень артефактов.
+### Shutdown
 
-## Соглашение по веткам
+```bash
+docker compose down
+```
 
-- `main` — стартовое состояние проекта;
-- `homework-*` — эталонные решения домашних заданий;
-- `exam-*` — экзаменационные сценарии и решения.
+Use `docker compose down -v` only when you intentionally want to delete local database and cache volumes.
 
-## Базовый проект
+## Environment Contract
 
-В рамках курса используется сквозной учебный контекст `ecommerce-platform`.
-На ранних уроках репозиторий содержит в основном onboarding- и operational-артефакты.
-Позже в нем появятся `Dockerfile`, `compose`-конфигурация, proxy-слой, IDE-настройки и production-подобная структура локальной среды.
+- `.env.example` lists required local variables without private secrets.
+- `docs/environment-contract.md` defines what belongs in the repository.
+- `docs/reproducibility-checklist.md` is the onboarding checklist.
+- `docs/upgrade-notes.md` records version changes.
+- `bin/check-environment-contract.sh` checks the required files and variables.
 
-## Правило качества
+This branch documents and validates the contract. It does not claim Docker containers were runtime-tested.
 
-Каждая homework-ветка должна содержать не абстрактный текст, а проверяемые артефакты:
-- markdown-документы;
-- shell-скрипты;
-- конфигурационные файлы;
-- объяснения operational-решений.

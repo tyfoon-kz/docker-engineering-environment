@@ -1,15 +1,31 @@
 # Reproducibility Checklist
 
-## A new developer should be able to
+A new developer should be able to complete this checklist from the repository alone.
 
-- find the stack entry point quickly
-- understand the required environment variables
-- identify the main services and their responsibilities
-- see where onboarding and operational notes live
-- repeat the basic local workflow without a private call with the environment author
+## Files
 
-## Why this matters
+- [ ] `README.md` explains prerequisites and first run.
+- [ ] `.env.example` lists required local variables.
+- [ ] `docker-compose.yml` or `compose.yaml` is present.
+- [ ] `docs/environment-contract.md` explains what belongs in Git.
+- [ ] `docs/upgrade-notes.md` explains pinned versions and upgrades.
+- [ ] `bin/check-environment-contract.sh` reports missing files or variables clearly.
 
-Reproducibility is not a slogan.
-It is visible when another developer can follow the repository and get the same working model of the environment.
+## Commands
+
+- [ ] `cp .env.example .env`
+- [ ] `bin/check-environment-contract.sh`
+- [ ] `docker compose config`
+- [ ] `docker compose up -d`
+- [ ] `docker compose ps`
+- [ ] `docker compose logs -f app`
+
+## Drift checks
+
+- [ ] README service names match compose service names.
+- [ ] `.env.example` variables match application and compose expectations.
+- [ ] Image tags are pinned instead of relying on accidental `latest`.
+- [ ] Upgrade notes mention version changes.
+
+Do not mark Docker runtime as tested unless the commands were actually run on the machine being reported.
 

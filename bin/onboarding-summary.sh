@@ -1,8 +1,11 @@
-#!/usr/bin/env sh
-set -eu
+#!/usr/bin/env bash
+set -euo pipefail
 
 printf '%s\n' 'Environment onboarding summary'
-printf '%s\n' '- Start with README.md and docs/environment-contract.md.'
-printf '%s\n' '- Use .env.example as the baseline for local variables.'
-printf '%s\n' '- Treat docs and helper scripts as part of the repository contract.'
-printf '%s\n' '- A reproducible environment must work from repository artifacts, not from private memory.'
+printf '%s\n' '1. Read README.md.'
+printf '%s\n' '2. Copy .env.example to .env.'
+printf '%s\n' '3. Run bin/check-environment-contract.sh.'
+printf '%s\n' '4. Run docker compose config before docker compose up -d.'
+printf '%s\n' ''
+printf '%s\n' 'This script is informational only. It does not start or stop Docker.'
+
