@@ -3,11 +3,11 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: ecommerce-phpstorm-xdebug-app
+    container_name: ${COMPOSE_STACK_NAME:-ecommerce}-phpstorm-xdebug-app
     working_dir: /var/www/html
     command: ["php", "-S", "0.0.0.0:8080", "-t", "public"]
     ports:
-      - "8080:8080"
+      - "${PHPSTORM_APP_PORT:-8080}:8080"
     volumes:
       - ./:/var/www/html
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug-local.ini:ro
