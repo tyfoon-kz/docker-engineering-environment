@@ -2,16 +2,39 @@
 
 ## Build context
 
-`docker build` does not see only the Dockerfile.
-It receives a build context: the files sent to the daemon for the build.
+The final dot in this command selects the build context:
 
-## Why `.dockerignore` matters
+```bash
+docker build -t ecommerce-php:lesson04 -f docker/php/Dockerfile .
+```
 
-`.dockerignore` prevents clutter and sensitive files from entering the build context.
-That keeps the build smaller, cleaner, and safer.
+Docker does not see the whole computer. It receives the files from the selected folder, after `.dockerignore` rules are applied.
 
-## Why order matters
+## `.dockerignore`
 
-The Dockerfile copies dependency metadata before the whole project.
-That is intentional.
-Frequently changing source files should invalidate fewer build layers than dependency definition changes.
+This repository excludes `.git`, `.env`, `vendor`, `node_modules`, logs, IDE files, and temporary clutter from the build context.
+
+That matters for three reasons:
+
+- the context is smaller;
+- local secrets are less likely to be copied into the image by accident;
+- Docker rebuilds are easier to understand.
+
+## Layer and cache order
+
+The Dockerfile copies `composer.json` and `composer.lock` before application files:
+
+```dockerfile
+COPY composer.json composer.lock ./
+RUN php -v
+COPY public ./public
+```
+
+Dependency metadata changes less often than application files. Keeping it earlier lets Docker reuse earlier layers when only source files change.
+
+## Common mistakes avoided here
+
+- The Dockerfile path is explicit: `-f docker/php/Dockerfile`.
+- `COPY` reads only files that exist in the build context.
+- `CMD` starts a foreground PHP process instead of exiting immediately.
+- `.env` is excluded from the build context.

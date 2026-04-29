@@ -1,16 +1,12 @@
-FROM php:8.5-cli
+FROM php:8.5-cli-alpine
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends git unzip libzip-dev \
-    && docker-php-ext-install zip \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
+WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
 
-RUN php -r "echo 'composer metadata placeholder for course build';"
+RUN php -v \
+    && php -r "echo 'Dependency metadata is copied before application files for cache stability.'.PHP_EOL;"
 
-COPY . .
+COPY public ./public
 
-CMD ["php", "-v"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
