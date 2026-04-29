@@ -1,10 +1,12 @@
 # Lesson 11 Reference Summary
 
-This branch represents the expected level of homework quality for lesson 11.
+This branch is the course answer key for UID/GID and permissions. Students implement the same ideas in their own `ecommerce-platform` repository.
 
-The solution shows:
-- explicit uid/gid alignment through environment and Compose;
-- writable paths identified intentionally;
-- a rejection of `777` as a fake fix;
-- a permission model described as part of the environment contract;
-- a stack that still starts under the aligned user model.
+Included artifacts:
+
+- `user: "${APP_UID:-1000}:${APP_GID:-1000}"` for the `app` service
+- `.env.example` with `APP_UID` and `APP_GID`
+- `storage`, `storage/logs`, `storage/app/uploads`, `bootstrap/cache`
+- `docs/uid-gid-permissions.md`
+- `docs/writable-paths.md`
+- `bin/check-writable-paths.sh`

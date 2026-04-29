@@ -1,8 +1,5 @@
 # Environment Contract
 
-The application service expects:
-- `APP_ENV` for runtime mode;
-- `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` for database access;
-- `REDIS_HOST`, `REDIS_PORT` for cache access.
+`.env.example` documents project variables, MySQL credentials, `WEB_PUBLISHED_PORT`, and the permission alignment values `APP_UID` and `APP_GID`.
 
-The important point is that `DB_HOST` and `REDIS_HOST` point to Compose service names, not to host machine ports.
+On Linux, use `id -u` and `id -g` for the UID/GID values.

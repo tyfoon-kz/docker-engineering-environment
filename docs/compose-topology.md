@@ -1,8 +1,5 @@
 # Compose Topology
 
-The stack is intentionally small and contains three roles:
-- `app` for the application runtime;
-- `postgres` for relational state;
-- `redis` for fast transient state.
+The stack has `web`, `app`, `mysql`, and `redis`.
 
-This is enough to teach that Compose describes the project as services with roles rather than as unrelated containers.
+`web` receives host HTTP, `app` runs PHP as the configured developer UID/GID, `mysql` stores relational state, and `redis` stores cache or queue data.
