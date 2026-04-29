@@ -1,29 +1,19 @@
 # Smoke Check Interpretation
 
+The smoke check is not a ritual. Each command proves a different part of the runtime model.
+
 ## `docker version`
 
-Confirms that the client is installed and that the client can speak to the daemon.
+This proves the Docker client is installed. If the daemon is reachable, it also prints the server section. If only the client appears or the command cannot connect, the daemon/runtime is the first thing to inspect.
 
 ## `docker info`
 
-Confirms that the runtime is responding with environment details such as storage driver, architecture, and available resources.
+This asks the daemon for runtime details: storage driver, Docker root dir, context, containers, images, and host information. It proves the daemon can answer detailed operational questions.
 
-## `docker run hello-world`
+## `docker run --rm hello-world`
 
-Confirms that the daemon can obtain an image, create a container from it, and start the process defined inside that image.
+This proves Docker can obtain an image and start a short-lived container. `hello-world` exits because its job is only to print a message and finish.
 
-## `docker ps`
+## `docker ps -a`
 
-Confirms that the developer can observe container state through the normal runtime interface.
-It is not a ritual command. It is an observability checkpoint.
-
-## Why the full sequence matters
-
-No single command proves everything.
-The sequence proves:
-- command path works;
-- runtime responds;
-- image retrieval works;
-- container creation works;
-- process start works;
-- container state is observable.
+This shows observable container history, including exited containers. It teaches that an exited container is not always a failure; it may simply mean the foreground process completed its work.

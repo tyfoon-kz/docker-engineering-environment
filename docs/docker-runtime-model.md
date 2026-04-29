@@ -1,27 +1,24 @@
 # Docker Runtime Model
 
-## Command Path
+When a developer runs Docker, the command travels through several parts:
 
-For a beginner, the most important path is:
+```text
+terminal
+  -> docker CLI client
+  -> Docker daemon
+  -> local image or remote registry
+  -> container
+  -> foreground process
+```
 
-`developer command -> docker client -> docker daemon -> image lookup/pull -> container creation -> process start`
+The `docker` command is the client. It does not create containers by itself. It sends a request to the Docker daemon.
 
-## What each part does
+The daemon does the real work:
 
-- The developer writes a command such as `docker run hello-world`.
-- The Docker client sends that request through the Docker API.
-- The Docker daemon decides whether the required image already exists locally.
-- If the image is missing, the daemon pulls it from a registry.
-- The daemon creates a container from that image.
-- The daemon starts the main process defined by the image.
+- checks whether the image exists locally;
+- pulls it from a registry if needed;
+- creates a container filesystem view;
+- configures networking and volumes;
+- starts the foreground process.
 
-## Why this model matters
-
-This model is useful because it separates concerns:
-- the client is the command interface;
-- the daemon is the runtime control plane;
-- the image is the reproducible artifact;
-- the container is the concrete runtime instance;
-- the process is the actual workload.
-
-If a developer does not understand that separation, they tend to diagnose Docker as one black box and lose precision during debugging.
+A container is not a mini VM. It is an isolated runtime instance that uses the host kernel. The important question is: what process is running inside it? If that process exits, the container exits.

@@ -1,18 +1,18 @@
-# Container vs Virtual Machine
+# Container vs VM
 
-## Comparison
-
-| Criterion | Container | Virtual Machine |
+| Criteria | Container | Virtual machine |
 | --- | --- | --- |
-| Execution model | Isolated process or process group | Full guest OS |
-| Kernel | Shares the host kernel | Boots its own kernel |
-| Startup speed | Usually fast | Usually slower |
-| Mutation strategy | Prefer recreation from declaration | Often administered as a long-lived machine |
-| Resource overhead | Lower in many local-dev scenarios | Higher because of full guest OS overhead |
+| Kernel | Shares the host kernel | Boots a separate guest OS kernel |
+| Main unit | Isolated process or process group | Full virtual machine |
+| Startup | Usually seconds or less | Usually slower because OS boots |
+| Size | Usually smaller | Usually larger |
+| Change style | Recreate from image/config | Often treated like a machine to maintain |
+| Best fit | App/runtime packaging and repeatable dev environments | Stronger machine-level isolation or different OS needs |
 
-## Engineering conclusion
+Useful beginner sentence:
 
-A container should be treated as a reproducible runtime unit, not as a tiny server to repair manually forever.
+```text
+A container is a process with a fence, not a full second computer.
+```
 
-A virtual machine is closer to a separate machine abstraction.
-That difference changes how a team debugs, rebuilds, and standardizes development environments.
+This matters because a container lives while its main foreground process lives. If that process exits, Docker marks the container as exited.

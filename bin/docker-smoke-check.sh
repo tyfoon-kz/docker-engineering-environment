@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-# Verify that the Docker client can talk to the daemon.
+echo "1. Docker client/server version"
 docker version
 
-# Print runtime details and confirm that the engine responds normally.
+echo "2. Runtime information from daemon"
 docker info
 
-# Run a short-lived container to prove that image retrieval and process start work.
+echo "3. Pull and run a short-lived test container"
 docker run --rm hello-world
 
-# Inspect visible runtime state after the smoke check.
-docker ps
+echo "4. Show observable container history"
+docker ps -a
