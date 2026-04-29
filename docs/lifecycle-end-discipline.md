@@ -14,3 +14,11 @@ This is different from deleting data.
 - Running broad prune commands without understanding context can destroy useful debugging evidence or data.
 
 Rule for beginners: clean up containers deliberately, but do not delete volumes blindly.
+
+The boundary matters:
+
+```text
+docker rm <container>      -> removes a stopped container instance
+docker rmi <image>         -> removes a local image
+docker volume rm <volume>  -> may remove persistent data
+```

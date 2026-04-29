@@ -18,3 +18,5 @@ observe -> identify -> act -> verify -> clean up
 8. Clean up stopped temporary containers.
 
 Restart may be valid. Blind restart is the problem.
+
+If a training script uses a host port that is already busy, change only the host side of the mapping. For example, use `8083:80` instead of `8081:80`.

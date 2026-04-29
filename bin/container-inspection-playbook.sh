@@ -2,9 +2,12 @@
 set -euo pipefail
 
 NAME="lesson03-inspect-nginx"
+HOST_PORT="${HOST_PORT:-8081}"
 
 echo "1. Start a temporary nginx container"
-docker run -d --name "$NAME" -p 8081:80 nginx:alpine
+docker rm -f "$NAME" >/dev/null 2>&1 || true
+trap 'docker rm -f "$NAME" >/dev/null 2>&1 || true' EXIT
+docker run -d --name "$NAME" -p "${HOST_PORT}:80" nginx:alpine
 
 echo "2. Observe running state"
 docker ps --filter "name=$NAME"
