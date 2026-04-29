@@ -6,6 +6,9 @@ root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 required_files=(
   ".env.example"
   "README.md"
+  "public/index.php"
+  "docker/php/Dockerfile"
+  "docker/nginx/default.conf"
   "docs/environment-contract.md"
   "docs/reproducibility-checklist.md"
   "docs/upgrade-notes.md"
@@ -66,4 +69,3 @@ fi
 
 printf '%s\n' ''
 printf '%s\n' 'Environment contract files look complete.'
-
