@@ -1,8 +1,38 @@
-#!/usr/bin/env sh
-set -eu
+#!/usr/bin/env bash
+set -euo pipefail
 
-printf '%s\n' 'Xdebug summary'
-printf '%s\n' '- The container must load Xdebug explicitly.'
-printf '%s\n' '- PhpStorm must listen on the same port that Xdebug targets.'
-printf '%s\n' '- Path mappings must connect /app inside the container to the project path on the host.'
-printf '%s\n' '- A working debug setup is documented and repeatable, not personal folklore.'
+cat <<'SUMMARY'
+PhpStorm Xdebug summary
+-----------------------
+Expected service:
+  app
+
+Expected container workdir:
+  /var/www/html
+
+Expected path mapping:
+  host repository root <-> /var/www/html
+
+Xdebug location:
+  Inside the PHP container, not on the host.
+
+PhpStorm role:
+  Listen on the host for incoming Xdebug connections.
+
+Expected local debug values:
+  xdebug.mode=debug,develop
+  xdebug.start_with_request=trigger
+  xdebug.client_host=host.docker.internal
+  xdebug.client_port=9003
+  xdebug.discover_client_host=0
+
+Common gotchas:
+  firewall blocks port 9003
+  wrong client_host for Linux
+  missing path mapping
+  trigger was not sent
+  PhpStorm listener is off
+
+Safety:
+  Keep Xdebug local-only. Do not enable it as a production default.
+SUMMARY

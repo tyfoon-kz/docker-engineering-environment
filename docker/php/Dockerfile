@@ -1,12 +1,13 @@
-FROM php:8.5-cli
+FROM php:8.3-cli
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git unzip \
+    && apt-get install -y --no-install-recommends git unzip libzip-dev $PHPIZE_DEPS \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
+    && docker-php-ext-install zip pdo pdo_mysql \
+    && apt-get purge -y --auto-remove $PHPIZE_DEPS \
     && rm -rf /var/lib/apt/lists/*
 
-COPY docker/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug.ini
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
-WORKDIR /app
-
+WORKDIR /var/www/html

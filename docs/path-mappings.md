@@ -1,18 +1,17 @@
 # Path Mappings
 
-## What they solve
+During debugging, Xdebug reports container paths. PhpStorm opens host paths. Path mappings tell PhpStorm that those paths refer to the same file.
 
-The container sees the code under container paths such as `/app`.
-PhpStorm sees the same code under a host path on the developer machine.
-Path mappings tell the IDE that these two locations represent the same project files.
+Expected mapping:
 
-## Why breakpoints fail without them
+- host path: repository root on the developer machine;
+- container path: `/var/www/html`;
+- service: `app`;
+- workdir: `/var/www/html`.
 
-When Xdebug reports a file path from the container, PhpStorm must translate it to a file opened on the host.
-If the translation is wrong, the IDE receives the debug session but cannot attach it to the right file and line.
+Example:
 
-## Rule
+- container file: `/var/www/html/app/Http/Controllers/ProductController.php`;
+- host file: `<project root>/app/Http/Controllers/ProductController.php`.
 
-Path mappings are not an optional refinement.
-They are part of the debug contract between the container runtime and the IDE.
-
+If this mapping is missing, the Xdebug connection can still reach PhpStorm, but the breakpoint may not bind to the correct file. A gray or ignored breakpoint is often a mapping problem, not an Xdebug installation problem.

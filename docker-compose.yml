@@ -3,16 +3,21 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: ecommerce-app
-    working_dir: /app
-    command: ["sh", "-lc", "php -v && php -m | grep -i xdebug && sleep infinity"]
+    container_name: ecommerce-phpstorm-xdebug-app
+    working_dir: /var/www/html
+    command: ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/99-xdebug-local.ini:ro
     environment:
       APP_ENV: local
-      PHP_IDE_CONFIG: serverName=ecommerce.localho.st
-      XDEBUG_MODE: debug,develop
-      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003 idekey=PHPSTORM
+      COMPOSER_ALLOW_SUPERUSER: "1"
+      XDEBUG_MODE: "debug,develop"
+      XDEBUG_START_WITH_REQUEST: "trigger"
+      XDEBUG_CLIENT_HOST: "host.docker.internal"
+      XDEBUG_CLIENT_PORT: "9003"
+      XDEBUG_DISCOVER_CLIENT_HOST: "0"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - ./:/app
-
