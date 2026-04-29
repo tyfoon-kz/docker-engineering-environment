@@ -1,10 +1,12 @@
 # Lesson 07 Reference Summary
 
-This branch represents the expected level of homework quality for lesson 07.
+This branch is the course answer key for Compose as project topology. Students do not checkout this branch directly; they implement the same ideas in their own `ecommerce-platform` repository.
 
-The solution shows:
-- a Compose file that reads like a project map;
-- explicit environment variables;
-- a minimal but meaningful app/database/cache topology;
-- a readable naming convention for services and containers;
-- a stack that can be inspected through `docker compose config`.
+Included artifacts:
+
+- `docker-compose.yml`
+- `.env.example`
+- `docs/compose-topology.md`
+- `docs/environment-contract.md`
+- `docs/naming-convention.md`
+- `bin/compose-config-check.sh`
