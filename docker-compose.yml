@@ -6,7 +6,7 @@ services:
     ports:
       - "18083:80"
     mem_limit: 256m
-    cpus: 0.50
+    cpus: "0.50"
     volumes:
       - ./services/app:/usr/share/nginx/html:ro
 
@@ -15,7 +15,6 @@ services:
     container_name: ecommerce-limits-admin
     restart: unless-stopped
     mem_limit: 128m
-    cpus: 0.25
+    cpus: "0.25"
     volumes:
       - ./services/admin:/usr/share/nginx/html:ro
-
