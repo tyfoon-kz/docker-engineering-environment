@@ -3,13 +3,13 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: ecommerce-app
-    working_dir: /app
-    command: ["sh", "-lc", "php -v && composer --version && sleep infinity"]
+    container_name: ecommerce-phpstorm-interpreter-app
+    working_dir: /var/www/html
+    command: ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www/html
     environment:
       APP_ENV: local
-      COMPOSER_HOME: /tmp/composer
-      PHP_IDE_CONFIG: serverName=ecommerce.localho.st
-    volumes:
-      - ./:/app
-
+      COMPOSER_ALLOW_SUPERUSER: "1"

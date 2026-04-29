@@ -1,24 +1,18 @@
 # Remote PHP Interpreter
 
-## Core idea
+Interpreter means: which PHP runs the code.
 
-For a container-based PHP project, the IDE should run PHP-aware actions through the same runtime that serves the application.
-The remote interpreter is the bridge that makes that possible.
+For this project the expected interpreter is not host PHP. The expected interpreter is PHP inside the Compose service:
 
-## What it gives the project
+- service name: `app`;
+- container project path: `/var/www/html`;
+- container workdir: `/var/www/html`;
+- image source: `docker/php/Dockerfile`;
+- expected tools: `php`, `composer`, `vendor/bin/phpunit` or `vendor/bin/pest`.
 
-- The IDE uses the project's container PHP instead of host PHP.
-- Composer actions can follow container extensions and platform constraints.
-- Test execution reflects the real runtime instead of a local approximation.
-- One interpreter model reduces tool disagreement.
+PhpStorm sees files on the host, but PHP runs inside the container. Path mapping connects those two views:
 
-## What it is not
+- host path: repository root on the developer machine;
+- container path: `/var/www/html`.
 
-- It is not a random convenience toggle.
-- It is not permission to mix host PHP and container PHP freely.
-- It is not a replacement for good path mappings and clean Docker config.
-
-## Rule
-
-If the project runtime is containerized, the IDE interpreter should be containerized too.
-
+The Docker connection from the previous lesson only lets PhpStorm see Docker. The remote interpreter chooses the concrete PHP from the `app` service. Without this step, PhpStorm may still run Composer or tests through a random local PHP installation.
