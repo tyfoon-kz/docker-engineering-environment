@@ -5,6 +5,7 @@ root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 required_paths=(
   "docker-compose.yml"
+  "public/index.php"
   "docker/php/Dockerfile"
   "docker/nginx/default.conf"
   "docs/project-structure.md"
@@ -41,4 +42,3 @@ if [[ "${missing}" -ne 0 ]]; then
   printf '%s\n' 'Some layout files are missing. Add them before asking a teammate to onboard from this repository.'
   exit 1
 fi
-

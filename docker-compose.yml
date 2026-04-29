@@ -16,7 +16,7 @@ services:
   nginx:
     image: nginx:1.27-alpine
     ports:
-      - "8080:80"
+      - "${WEB_PUBLISHED_PORT:-8080}:80"
     volumes:
       - ./:/app:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
@@ -45,11 +45,10 @@ services:
 
 networks:
   app-network:
-    name: ecommerce-platform-local
+    name: ${COMPOSE_STACK_NAME:-ecommerce-platform}-local
 
 volumes:
   postgres-data:
-    name: ecommerce-platform-postgres-data
+    name: ${COMPOSE_STACK_NAME:-ecommerce-platform}-postgres-data
   redis-data:
-    name: ecommerce-platform-redis-data
-
+    name: ${COMPOSE_STACK_NAME:-ecommerce-platform}-redis-data
