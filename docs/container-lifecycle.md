@@ -16,6 +16,7 @@ Useful commands:
 
 ```bash
 docker pull nginx:alpine
+docker rm -f lesson02-nginx >/dev/null 2>&1 || true
 docker run -d --name lesson02-nginx -p 8080:80 nginx:alpine
 docker ps
 docker logs lesson02-nginx --tail 20
@@ -23,5 +24,7 @@ docker stop lesson02-nginx
 docker ps -a
 docker rm lesson02-nginx
 ```
+
+If host port `8080` is busy, change only the host side, for example `-p 8082:80`.
 
 The key is reproducibility. If the container can be recreated from known inputs, the team does not depend on hidden manual changes.
