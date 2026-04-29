@@ -1,14 +1,20 @@
 # Observe Before Action
 
-## Diagnostic order
+Do not start with blind restart. Start with evidence.
 
-1. Check whether the container is running with `docker ps`.
-2. If it is missing, inspect exited containers with `docker ps -a`.
-3. Read logs with `docker logs <name>` before restarting anything.
-4. If the container is alive, inspect the runtime context with `docker exec`.
-5. Only after observation, decide whether stop/recreate/remove is justified.
+```text
+observe -> identify -> act -> verify -> clean up
+```
 
-## Why this order matters
+## Ladder
 
-Blind restarts often hide the original failure signal.
-Observation preserves evidence.
+1. `docker ps -a` — is the container running or exited?
+2. Identify name, image, status, and ports.
+3. `docker logs <container>` — what did the process say?
+4. `docker inspect <container>` — what config/state does Docker know?
+5. `docker exec -it <container> sh` — only if the container is running and you need inside context.
+6. Act: change config, stop, recreate, or fix the source of the problem.
+7. Verify with `ps`, `logs`, browser, or `curl`.
+8. Clean up stopped temporary containers.
+
+Restart may be valid. Blind restart is the problem.

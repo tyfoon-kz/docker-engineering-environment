@@ -1,14 +1,16 @@
 # Lifecycle End Discipline
 
-## Why cleanup matters
+Containers are disposable runtime instances. If a temporary container is no longer needed, stopping and removing it is normal discipline.
 
-Containers should not accumulate forever.
-When stopped containers remain without purpose, the environment becomes noisy and misleading.
+```bash
+docker stop my-container
+docker rm my-container
+```
 
-## Why `stop` and `rm` are normal
+This is different from deleting data.
 
-`stop` ends the running state.
-`rm` removes the runtime instance after it is no longer needed.
+- Removing a stopped container removes that runtime instance.
+- Removing a volume can remove persistent data.
+- Running broad prune commands without understanding context can destroy useful debugging evidence or data.
 
-Used deliberately, they do not destroy engineering discipline.
-They preserve it by keeping the environment understandable and reproducible.
+Rule for beginners: clean up containers deliberately, but do not delete volumes blindly.
