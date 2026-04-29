@@ -12,6 +12,12 @@ API_DOMAIN="${API_DOMAIN:-api.ecommerce.localho.st}"
 ADMIN_DOMAIN="${ADMIN_DOMAIN:-admin.ecommerce.localho.st}"
 TRAEFIK_DASHBOARD_DOMAIN="${TRAEFIK_DASHBOARD_DOMAIN:-traefik.ecommerce.localho.st}"
 
+if ! command -v openssl >/dev/null 2>&1; then
+  echo "openssl is required to generate local certificates." >&2
+  exit 1
+fi
+
+umask 077
 mkdir -p "$CERT_DIR"
 
 cat >"$CONF_FILE" <<EOF
@@ -47,3 +53,4 @@ rm -f "$CONF_FILE"
 echo "Generated:"
 echo "  $CRT_FILE"
 echo "  $KEY_FILE"
+echo "These files are for local development and are ignored by Git."

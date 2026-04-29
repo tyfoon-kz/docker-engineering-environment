@@ -15,3 +15,22 @@ This keeps the HTTPS setup reproducible:
 - another developer can generate the same local certificate bundle;
 - the repository documents where the certificate comes from;
 - Traefik does not depend on a mysterious manual step.
+
+Run:
+
+```bash
+bin/generate-local-certs.sh
+docker compose config
+```
+
+The generated `.crt`, `.key`, and temporary `.cnf` files are ignored by Git. The repository commits the workflow and the `docker/traefik/certs/.gitkeep` placeholder, not private keys.
+
+Never commit private production keys. A private key proves control over a certificate. If it leaks, the certificate must be treated as compromised.
+
+Browser warnings are expected until the local certificate or local CA is trusted by the machine. For command-line troubleshooting, `curl -k` can ignore trust only to confirm that HTTPS answers:
+
+```bash
+curl -vk https://ecommerce.localho.st
+```
+
+`-k` is a local diagnostic shortcut, not a production habit.
