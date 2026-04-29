@@ -1,22 +1,17 @@
 # Foreground Process
 
-## Core rule
-
 A container lives while its main foreground process lives.
 
-## Example: `hello-world`
+`hello-world` exits because its job is tiny:
 
-`hello-world` prints a message and exits.
-So the container exits normally right after doing its job.
+```text
+start -> print message -> finish -> container exits
+```
 
-## Example: `nginx`
+`nginx` stays running because the web server process keeps listening:
 
-`nginx` keeps serving requests as its main server process continues to run.
-So the container remains alive while that process is alive.
+```text
+start -> nginx listens on port 80 -> process stays alive -> container stays running
+```
 
-## Why this matters
-
-If a container exits immediately, the first question should be:
-"What process was supposed to stay alive here?"
-
-That question is more useful than assuming Docker itself crashed.
+An exited container is not automatically a Docker failure. First ask: what process was started, and was it supposed to run forever?

@@ -1,20 +1,14 @@
 # Image vs Container
 
-## Image
+The shortest beginner model:
 
-An image is a reproducible build artifact.
-It describes the filesystem and runtime defaults from which a container can be created.
-It is treated as immutable because engineering teams need to rebuild it predictably.
+```text
+image     -> recipe / packed box / blueprint
+container -> running instance / opened box / process from image
+```
 
-## Container
+An **image** is immutable. It is a layered artifact that describes what files, packages, and default startup command should exist.
 
-A container is the running or stopped runtime instance created from an image.
-It has a lifecycle: create, start, observe, stop, remove, recreate.
+A **container** is created from an image. It is the runtime object Docker starts and observes. Practically, it is an isolated process or group of processes with a filesystem view, network settings, and optional mounts.
 
-## Why the distinction matters
-
-If a team confuses the image with the container:
-- they start patching runtime state manually;
-- they lose reproducibility;
-- they stop trusting their environment setup;
-- they cannot explain what should be rebuilt and what should be restarted.
+If the environment needs to change, change the image/config and recreate the container. Do not treat a running container as a special machine to fix by hand.

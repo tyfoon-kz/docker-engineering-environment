@@ -1,15 +1,16 @@
 # Recreation vs Manual Fix
 
-## Why recreation is preferred
+Manual fixes inside a running container feel fast, but they are hard to trust:
 
-Containers should usually be recreated because:
-- the desired state should live in the declaration, not in manual shell history;
-- another developer must be able to get the same result on another machine;
-- reproducibility is more valuable than local improvisation.
+- they are not written in the repository;
+- teammates cannot reproduce them;
+- CI cannot verify them;
+- a new container loses them.
 
-## Why manual fixes are dangerous
+The better pattern is:
 
-When a developer changes a container by hand:
-- the runtime drifts away from its source declaration;
-- the team cannot reliably reproduce the same state;
-- debugging becomes harder because the environment is no longer transparent.
+```text
+describe desired state -> build/pull image -> run container -> observe -> recreate if needed
+```
+
+Recreation is not wasteful. It is the discipline that keeps the environment predictable.

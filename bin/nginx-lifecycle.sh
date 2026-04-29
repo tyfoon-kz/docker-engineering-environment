@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-# Obtain a lightweight web-server image for lifecycle practice.
+NAME="lesson02-nginx"
+
+echo "1. Pull the image if it is not available locally"
 docker pull nginx:alpine
 
-# Create and start a named runtime instance in detached mode.
-docker run -d --name course-nginx nginx:alpine
+echo "2. Start a long-running web server container"
+docker run -d --name "$NAME" -p 8080:80 nginx:alpine
 
-# Observe the running container.
-docker ps
+echo "3. Observe the running container"
+docker ps --filter "name=$NAME"
 
-# Stop the container to end its active lifecycle state.
-docker stop course-nginx
+echo "4. Read recent logs from the foreground process"
+docker logs "$NAME" --tail 20
 
-# Remove the stopped container so the environment stays reproducible and clean.
-docker rm course-nginx
+echo "5. Ask the process/container to stop"
+docker stop "$NAME"
+
+echo "6. Confirm it is now exited"
+docker ps -a --filter "name=$NAME"
+
+echo "7. Remove the stopped disposable runtime instance"
+docker rm "$NAME"
